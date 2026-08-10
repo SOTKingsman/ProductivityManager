@@ -5,15 +5,15 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:ProductivityManager.Views.UserControls"
              mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="125">
     <Grid Width="125" Background="LightGray">
         <Grid.RowDefinitions>
             <RowDefinition Height="50"></RowDefinition>
             <RowDefinition Height="50"></RowDefinition>
             <RowDefinition Height="50"></RowDefinition>
         </Grid.RowDefinitions>
-        <Button Grid.Row="0" Width="100" Height="33" Background="White" Content="Home" FontSize="20"></Button>
-        <Button Grid.Row="1" Width="100" Height="33" Background="White" Content="Tasks" FontSize="20"></Button>
-        <Button Grid.Row="2" Width="100" Height="33" Background="White" Content="Settings" FontSize="20"></Button>
+        <Button Name="BtnHome" Grid.Row="0" Width="100" Height="33" Background="White" Content="Home" FontSize="20" Click="BtnHome_OnClick"></Button>
+        <Button Name="BtnTasks" Grid.Row="1" Width="100" Height="33" Background="White" Content="Tasks" FontSize="20" Click="BtnTasks_OnClick"></Button>
+        <Button Name="BtnSettings" Grid.Row="2" Width="100" Height="33" Background="White" Content="Settings" FontSize="20" Click="BtnSettings_OnClick"></Button>
     </Grid>
 </UserControl>
