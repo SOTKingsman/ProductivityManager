@@ -13,6 +13,10 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         
-        <userControls:SideBar Grid.Column="0"></userControls:SideBar>
+        <userControls:SideBar Grid.Column="0" 
+                              HomeRequested="SideBar_OnHomeRequested" 
+                              TasksRequested="SideBar_OnTasksRequested"
+                              SettingsRequested="SideBar_OnSettingsRequested"></userControls:SideBar>
+        <ContentControl x:Name="MainContent" Grid.Column="1"></ContentControl>
     </Grid>
 </Window>
