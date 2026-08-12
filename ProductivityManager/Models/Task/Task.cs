@@ -1,7 +1,7 @@
 using System.DirectoryServices.ActiveDirectory;
 using System.Text;
 
-namespace ProductivityManager.Views.Models;
+namespace ProductivityManager.Models.Task;
 
 public class Task
 {
