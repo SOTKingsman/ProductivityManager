@@ -1,9 +1,11 @@
 using System.DirectoryServices.ActiveDirectory;
+using System.Text;
 
 namespace ProductivityManager.Views.Models;
 
 public class Task
 {
+    private StringBuilder sb;
     private String TaskName
     {
         get;
@@ -26,7 +28,7 @@ public class Task
             }
         }
     }
-    private TimeOnly StartTime
+    private DateTime StartDateTime
     {
         get;
         set
@@ -37,7 +39,7 @@ public class Task
             }
         }
     }
-    private TimeOnly EndTime
+    private DateTime EndDateTime
     {
         get;
         set
@@ -49,17 +51,19 @@ public class Task
         }
     }
 
-    public Task(String taskName,String description,int startHour,int startMinute,int endHour,int endMinute)
+    public Task(String taskName,String description,DateTime start,DateTime end)
     {
         TaskName = taskName;
         Description = description;
-        StartTime = SelectTime(startHour, startMinute);
-        EndTime = SelectTime(endHour, endMinute);
+        StartDateTime = start;
+        EndDateTime = end;
     }
-
-    public TimeOnly SelectTime(int hour,int minute)
+    
+    public override string ToString()
     {
-        TimeOnly time = new TimeOnly(hour, minute);
-        return  time;
+        return sb.Append("Task: ").Append(TaskName)
+            .AppendLine("Description: ").Append(Description)
+            .AppendLine("Timeframe: ").Append(StartDateTime).Append(" - ").Append(EndDateTime)
+            .ToString();
     }
 }
