@@ -28,7 +28,7 @@ public class Task
             }
         }
     }
-    private DateOnly Date
+    private DateTime StartDateTime
     {
         get;
         set
@@ -39,18 +39,7 @@ public class Task
             }
         }
     }
-    private TimeOnly StartTime
-    {
-        get;
-        set
-        {
-            if (value != null)
-            {
-                field = value;
-            }
-        }
-    }
-    private TimeOnly EndTime
+    private DateTime EndDateTime
     {
         get;
         set
@@ -62,34 +51,19 @@ public class Task
         }
     }
 
-    public Task(String taskName,String description,int year,int month,int day,int startHour,int startMinute,int endHour,int endMinute)
+    public Task(String taskName,String description,DateTime start,DateTime end)
     {
         TaskName = taskName;
         Description = description;
-        Date = SelectDate(year, month, day);
-        StartTime = SelectTime(startHour, startMinute);
-        EndTime = SelectTime(endHour, endMinute);
-    }
-
-    public DateOnly SelectDate(int year, int month, int day)
-    {
-        DateOnly date = new DateOnly(year, month, day);
-        return date;
+        StartDateTime = start;
+        EndDateTime = end;
     }
     
-    public TimeOnly SelectTime(int hour,int minute)
-    {
-        TimeOnly time = new TimeOnly(hour, minute);
-        return  time;
-    }
-
     public override string ToString()
     {
         return sb.Append("Task: ").Append(TaskName)
             .AppendLine("Description: ").Append(Description)
-            .AppendLine("Date: ").Append(Date)
-            .AppendLine("Start Time: ").Append(StartTime)
-            .AppendLine("End Time: ").Append(EndTime)
+            .AppendLine("Timeframe: ").Append(StartDateTime).Append(" - ").Append(EndDateTime)
             .ToString();
     }
 }
