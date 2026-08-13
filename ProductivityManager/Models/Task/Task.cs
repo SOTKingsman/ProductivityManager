@@ -3,10 +3,10 @@ using System.Text;
 
 namespace ProductivityManager.Models.Task;
 
-public class Task
+public abstract class Task
 {
-    private StringBuilder sb;
-    private String TaskName
+    protected StringBuilder Sb = new StringBuilder();
+    private string TaskName
     {
         get;
         set
@@ -17,7 +17,7 @@ public class Task
             }
         }
     }
-    private String Description
+    private string Category
     {
         get;
         set
@@ -28,32 +28,24 @@ public class Task
             }
         }
     }
-    private DateTime StartDateTime
+    private string Description
     {
         get;
         set
         {
-            if (value != null)
+            if (value != null || !value.Trim().Equals(""))
             {
                 field = value;
             }
         }
     }
-    private DateTime EndDateTime
-    {
-        get;
-        set
-        {
-            if (value != null)
-            {
-                field = value;
-            }
-        }
-    }
+    private DateTime StartDateTime { get; set; }
+    private DateTime EndDateTime { get; set; }
 
-    public Task(String taskName,String description,DateTime start,DateTime end)
+    public Task(string taskName,string category,string description,DateTime start,DateTime end)
     {
         TaskName = taskName;
+        Category = category;
         Description = description;
         StartDateTime = start;
         EndDateTime = end;
@@ -61,7 +53,8 @@ public class Task
     
     public override string ToString()
     {
-        return sb.Append("Task: ").Append(TaskName)
+        return Sb.Append("Task: ").Append(TaskName)
+            .AppendLine("Category: ").Append(Category)
             .AppendLine("Description: ").Append(Description)
             .AppendLine("Timeframe: ").Append(StartDateTime).Append(" - ").Append(EndDateTime)
             .ToString();
