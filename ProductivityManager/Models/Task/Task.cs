@@ -5,7 +5,7 @@ namespace ProductivityManager.Models.Task;
 
 public class Task
 {
-    private StringBuilder sb;
+    private StringBuilder _sb = new StringBuilder();
     private String TaskName
     {
         get;
@@ -73,7 +73,7 @@ public class Task
     
     public override string ToString()
     {
-        return sb.Append("Task: ").Append(TaskName)
+        return _sb.Append("Task: ").Append(TaskName)
             .AppendLine("Category: ").Append(Category)
             .AppendLine("Description: ").Append(Description)
             .AppendLine("Timeframe: ").Append(StartDateTime).Append(" - ").Append(EndDateTime)
