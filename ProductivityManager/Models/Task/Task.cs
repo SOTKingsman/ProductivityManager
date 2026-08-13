@@ -17,7 +17,18 @@ public abstract class Task
             }
         }
     }
-    private string Category
+    private String Category
+    {
+        get;
+        set
+        {
+            if (value != null || !value.Trim().Equals(""))
+            {
+                field = value;
+            }
+        }
+    }
+    private String Description
     {
         get;
         set
