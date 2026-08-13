@@ -17,6 +17,17 @@ public class Task
             }
         }
     }
+    private String Category
+    {
+        get;
+        set
+        {
+            if (value != null || !value.Trim().Equals(""))
+            {
+                field = value;
+            }
+        }
+    }
     private String Description
     {
         get;
@@ -51,9 +62,10 @@ public class Task
         }
     }
 
-    public Task(String taskName,String description,DateTime start,DateTime end)
+    public Task(String taskName, String category, String description,DateTime start,DateTime end)
     {
         TaskName = taskName;
+        Category = category;
         Description = description;
         StartDateTime = start;
         EndDateTime = end;
@@ -62,6 +74,7 @@ public class Task
     public override string ToString()
     {
         return sb.Append("Task: ").Append(TaskName)
+            .AppendLine("Category: ").Append(Category)
             .AppendLine("Description: ").Append(Description)
             .AppendLine("Timeframe: ").Append(StartDateTime).Append(" - ").Append(EndDateTime)
             .ToString();
