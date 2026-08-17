@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 public class TaskDao
 {
-    private readonly string _connectionString = @"Data Source=C:/Users/G$$$/RiderProjects/ProductivityManager/identifier.sqlite";
+    private readonly string _connectionString = "Data Source=identifier.sqlite";
 
     public async Task DeleteTaskByStatus(int id, string status)
     {

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.Data.Sqlite;
 public class UserDao
 {
-    private readonly string _connectionString = @"Data Source=C:/Users/G$$$/RiderProjects/ProductivityManager/identifier.sqlite";
+    private readonly string _connectionString = @"Data Source=identifier.sqlite";
 
     public async Task DeleteUser(int id)
     {
