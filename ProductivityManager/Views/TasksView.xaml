@@ -26,11 +26,129 @@
                 BorderBrush="#CCCCCC"
                 BorderThickness="1"
                 CornerRadius="5">
+            <Grid>
+                <ListBox x:Name="TaskList"
+                         Background="Transparent"
+                         BorderThickness="0"
+                         HorizontalContentAlignment="Stretch"
+                         SelectionChanged="TaskItem_OnSelected"
+                         SelectionMode="Single">
 
-            <ListBox x:Name="TaskList"
-                     Background="Transparent"
-                     BorderThickness="0"
-                     Padding="10"/>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border Background="WhiteSmoke"
+                                    BorderBrush="#444444"
+                                    BorderThickness="1"
+                                    CornerRadius="8"
+                                    Padding="12"
+                                    Margin="4">
+
+                                <StackPanel>
+                                    <TextBlock Text="{Binding TaskName}"
+                                               FontSize="18"
+                                               FontWeight="SemiBold"/>
+
+                                    <TextBlock Text="{Binding Category}"
+                                               FontSize="12"
+                                               Margin="0,2,0,0"/>
+
+                                    <TextBlock Text="{Binding Description}"
+                                               Margin="0,8,0,0"
+                                               TextWrapping="Wrap"/>
+                                    
+                                    <TextBlock Text="{Binding StartDateTime}"
+                                               Margin="0,8,0,0"
+                                               TextWrapping="Wrap"/>
+                                    
+                                    <TextBlock Text="{Binding EndDateTime}"
+                                               Margin="0,8,0,0"
+                                               TextWrapping="Wrap"/>
+                                </StackPanel>
+
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                    
+                </ListBox>
+                
+                <Button Name="BtnAddTask"
+                        Height="35"
+                        Width="70"
+                        FontSize="15"
+                        Content="Add Task"
+                        Background="LightGray"
+                        BorderBrush="Gray"
+                        VerticalAlignment="Bottom"
+                        HorizontalAlignment="Right"
+                        Margin="25"
+                        Click="BtnAddTask_OnClick">
+                </Button>
+            </Grid>
         </Border>
+        
+        <Grid Grid.RowSpan="2" x:Name="CreateTaskOverlay"
+              Background="#66000000"
+              Visibility="Collapsed">
+
+            <Border Background="WhiteSmoke"
+                    Width="450"
+                    Padding="20"
+                    CornerRadius="10"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+
+                <StackPanel>
+                    <TextBlock Text="Create Task"
+                               FontSize="24"
+                               FontWeight="SemiBold"
+                               Margin="0,0,0,15"/>
+
+                    <TextBlock Text="Task Name"/>
+                    <TextBox x:Name="TaskNameInput"
+                             Margin="0,4,0,10"/>
+
+                    <TextBlock Text="Category"/>
+                    <TextBox x:Name="CategoryInput"
+                             Margin="0,4,0,10"/>
+
+                    <TextBlock Text="Description"/>
+                    <TextBox x:Name="DescriptionInput"
+                             Height="80"
+                             TextWrapping="Wrap"
+                             AcceptsReturn="True"
+                             Margin="0,4,0,15"/>
+                    
+                    <TextBlock Text="Start Date"/>
+                    <DatePicker x:Name="StartDateInput"/>
+                    
+                    <TextBlock Text="Start Time"/>
+                    <TextBox x:Name="StartTimeInput"
+                             Text="12:00 PM"/>
+
+                    <TextBlock Text="End Date"/>
+                    <DatePicker x:Name="EndDateInput"/>
+                    
+                    <TextBlock Text="End Time"/>
+                    <TextBox x:Name="EndTimeInput"
+                             Text="1:00 PM"/>
+
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Right">
+
+                        <Button Name="BtnCancelCreateTask"
+                                Content="Cancel"
+                                Click="BtnCancelCreateTask_OnClick"
+                                Margin="0,0,8,0"/>
+
+                        <Button Name="BtnCreateTask"
+                                Content="Create"
+                                Click="BtnCreateTask_OnClick"/>
+
+                    </StackPanel>
+
+                </StackPanel>
+            </Border>
+
+        </Grid>
     </Grid>
 </UserControl>
