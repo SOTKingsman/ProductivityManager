@@ -2,7 +2,7 @@
 using System.Data;
 using System.Windows;
 
-namespace ProductivityManager.Views;
+namespace ProductivityManager;
 
 public partial class App : Application
 {
