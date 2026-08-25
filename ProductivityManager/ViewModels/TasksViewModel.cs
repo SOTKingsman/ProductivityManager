@@ -9,8 +9,9 @@ namespace ProductivityManager.ViewModels;
 
 public class TasksViewModel : INotifyPropertyChanged
 {
-    public TaskEditorViewModel Editor { get; } = new();
-    public ObservableCollection<TaskModel> Tasks { get; } = new();
+    private readonly TaskService _taskService;
+    public TaskEditorViewModel Editor { get; }
+    public ObservableCollection<TaskModel> Tasks => _taskService.Tasks;
     
     private TaskModel? _selectedTask;
 
@@ -27,9 +28,14 @@ public class TasksViewModel : INotifyPropertyChanged
     public ICommand AddTaskCommand { get; }
     
     public ICommand EditTaskCommand { get; }
+    
+    public ICommand DeleteTaskCommand { get; }
 
-    public TasksViewModel()
+    public TasksViewModel(TaskService taskService)
     {
+        _taskService = taskService;
+        Editor = new TaskEditorViewModel(taskService);
+
         AddTaskCommand = new RelayCommand(_ => OpenCreateTask());
         EditTaskCommand = new RelayCommand(task =>
         {
@@ -38,9 +44,17 @@ public class TasksViewModel : INotifyPropertyChanged
                 OpenEditTask(taskModel);
             }
         });
+        DeleteTaskCommand = new RelayCommand(task =>
+        {
+            if (task is TaskModel taskModel)
+            {
+                OnTaskDeleted(taskModel);
+            }
+        });
 
         Editor.TaskCreated += OnTaskCreated;
         Editor.TaskEdited += OnTaskEdited;
+        Editor.TaskDeleted += OnTaskDeleted;
     }
     
     private void OpenCreateTask()
@@ -66,6 +80,16 @@ public class TasksViewModel : INotifyPropertyChanged
         {
             Tasks[index] = newTask;
         }
+    }
+
+    private void OpenDeleteTask()
+    {
+        Editor.OpenDelete();
+    }
+
+    public void OnTaskDeleted(TaskModel task)
+    {
+        Tasks.Remove(task);
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;
