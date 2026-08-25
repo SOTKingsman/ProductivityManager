@@ -107,7 +107,6 @@
         
         <userControls:TaskEditorView Grid.Row="0" Grid.RowSpan="2"
             DataContext="{Binding Editor}"
-            Visibility="{Binding IsOpen,
-        Converter={StaticResource BoolToVisibilityConverter}}"/>
+            Visibility="{Binding IsOpen, Converter={StaticResource BoolToVisibilityConverter}}"/>
     </Grid>
 </UserControl>

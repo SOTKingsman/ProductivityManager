@@ -10,12 +10,26 @@ public class TaskEditorViewModel : INotifyPropertyChanged
 {
     public event Action<TaskModel>? TaskCreated;
     public event Action<TaskModel, TaskModel>? TaskEdited;
+    public event Action<TaskModel>? TaskDeleted;
     private TaskModel? _editingTask;
+    
+    private readonly TaskService _taskService;
     public string SubmitButtonText => _editingTask == null ? "Create" : "Confirm";
     public string EditorTitle => _editingTask == null ? "Create Task" : "Edit Task";
 
+    public TaskEditorViewModel(TaskService taskService)
+    {
+        _taskService = taskService;
+    }
+
+    public void DeleteCurrentTask(TaskModel selectedTask)
+    {
+        _taskService.DeleteTask(selectedTask);
+    }
+
     public ICommand CreateTaskCommand { get; }
     public ICommand CancelCommand { get; }
+    public ICommand DeleteTaskCommand { get; }
 
     #region Task Properties
     private string _taskName = "";
@@ -106,6 +120,18 @@ public class TaskEditorViewModel : INotifyPropertyChanged
             OnPropertyChanged();
         }
     }
+    
+    private bool _isEditing = false;
+
+    public bool IsEditing
+    {
+        get => _isEditing;
+        set
+        {
+            _isEditing = value;
+            OnPropertyChanged();
+        }
+    }
 
     private string _errorMessage = "";
     public string ErrorMessage
@@ -122,12 +148,14 @@ public class TaskEditorViewModel : INotifyPropertyChanged
     {
         CreateTaskCommand = new RelayCommand(_ => CreateTask());
         CancelCommand = new RelayCommand(_ => Cancel());
+        DeleteTaskCommand = new RelayCommand(_ => DeleteTask());
 
         ClearInputs();
     }
 
     public void OpenCreate()
     {
+        IsEditing = false;
         _editingTask = null;
         OnPropertyChanged(nameof(EditorTitle));
         OnPropertyChanged(nameof(SubmitButtonText));
@@ -138,6 +166,7 @@ public class TaskEditorViewModel : INotifyPropertyChanged
 
     private void Cancel()
     {
+        IsEditing = false;
         _editingTask = null;
         IsOpen = false;
         ClearInputs();
@@ -189,6 +218,7 @@ public class TaskEditorViewModel : INotifyPropertyChanged
             TaskEdited?.Invoke(_editingTask, task);
         }
 
+        IsEditing = false;
         _editingTask = null;
         IsOpen = false;
         ClearInputs();
@@ -208,6 +238,8 @@ public class TaskEditorViewModel : INotifyPropertyChanged
     
     public void OpenEdit(TaskModel task)
     {
+        
+        IsEditing = true;
         _editingTask = task;
         OnPropertyChanged(nameof(EditorTitle));
         OnPropertyChanged(nameof(SubmitButtonText));
@@ -223,6 +255,17 @@ public class TaskEditorViewModel : INotifyPropertyChanged
         EndTime = task.EndDateTime.ToString("h:mm tt");
 
         IsOpen = true;
+    }
+
+    public void OpenDelete()
+    {
+        
+    }
+
+    private void DeleteTask()
+    {
+        IsEditing = false;
+        
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;
