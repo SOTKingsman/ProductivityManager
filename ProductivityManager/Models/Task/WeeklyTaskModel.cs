@@ -2,10 +2,14 @@
 
 public class WeeklyTaskModel : TaskModel
 {
-    private List<int> ScheduledDays { get; set; }
+    public List<DayOfWeek> ScheduledDays { get; set; }
+    public DateTime RepeatUntil { get; set; }
     
-    public WeeklyTaskModel(string taskName,string category,string description,DateTime start,DateTime end) : base(taskName,category,description,start,end)
+    public WeeklyTaskModel(string taskName, string category, string description, DateTime start, DateTime end,
+        List<DayOfWeek> scheduledDays, DateTime repeatUntil) : base(taskName, category, description, start, end)
     {
+        ScheduledDays = scheduledDays;
+        RepeatUntil = repeatUntil;
     }
 
     public override string ToString()
