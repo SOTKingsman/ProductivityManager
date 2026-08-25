@@ -4,8 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:ProductivityManager.Views"
+             xmlns:userControls="clr-namespace:ProductivityManager.Views.UserControls"
              mc:Ignorable="d"
-             d:DesignHeight="450" d:DesignWidth="675">
+             d:DesignWidth="1920" d:DesignHeight="1080">
+    
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+    </UserControl.Resources>
+    
     <Grid Background="#F5F5F5">
         <Grid.RowDefinitions>
             <RowDefinition Height="70"/>
@@ -28,44 +34,55 @@
                 CornerRadius="5">
             <Grid>
                 <ListBox x:Name="TaskList"
+                         ItemsSource="{Binding Tasks}"
+                         SelectedItem="{Binding SelectedTask, Mode=TwoWay}"
                          Background="Transparent"
                          BorderThickness="0"
                          HorizontalContentAlignment="Stretch"
-                         SelectionChanged="TaskItem_OnSelected"
                          SelectionMode="Single">
 
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Border Background="WhiteSmoke"
-                                    BorderBrush="#444444"
-                                    BorderThickness="1"
-                                    CornerRadius="8"
-                                    Padding="12"
-                                    Margin="4">
+                            
+                            <Button Command="{Binding DataContext.EditTaskCommand,
+                                              RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                    CommandParameter="{Binding}"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    HorizontalContentAlignment="Stretch">
 
-                                <StackPanel>
-                                    <TextBlock Text="{Binding TaskName}"
-                                               FontSize="18"
-                                               FontWeight="SemiBold"/>
+                                <Border Background="WhiteSmoke"
+                                        BorderBrush="#444444"
+                                        BorderThickness="1"
+                                        CornerRadius="8"
+                                        Padding="12"
+                                        Margin="4">
 
-                                    <TextBlock Text="{Binding Category}"
-                                               FontSize="12"
-                                               Margin="0,2,0,0"/>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding TaskName}"
+                                                   FontSize="18"
+                                                   FontWeight="SemiBold"/>
 
-                                    <TextBlock Text="{Binding Description}"
-                                               Margin="0,8,0,0"
-                                               TextWrapping="Wrap"/>
+                                        <TextBlock Text="{Binding Category}"
+                                                   FontSize="12"
+                                                   Margin="0,2,0,0"/>
+
+                                        <TextBlock Text="{Binding Description}"
+                                                   Margin="0,8,0,0"
+                                                   TextWrapping="Wrap"/>
                                     
-                                    <TextBlock Text="{Binding StartDateTime}"
-                                               Margin="0,8,0,0"
-                                               TextWrapping="Wrap"/>
+                                        <TextBlock Text="{Binding StartDateTime}"
+                                                   Margin="0,8,0,0"
+                                                   TextWrapping="Wrap"/>
                                     
-                                    <TextBlock Text="{Binding EndDateTime}"
-                                               Margin="0,8,0,0"
-                                               TextWrapping="Wrap"/>
-                                </StackPanel>
+                                        <TextBlock Text="{Binding EndDateTime}"
+                                                   Margin="0,8,0,0"
+                                                   TextWrapping="Wrap"/>
+                                    </StackPanel>
 
-                            </Border>
+                                </Border>
+
+                            </Button>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                     
@@ -81,74 +98,16 @@
                         VerticalAlignment="Bottom"
                         HorizontalAlignment="Right"
                         Margin="25"
-                        Click="BtnAddTask_OnClick">
+                        Command="{Binding AddTaskCommand}">
                 </Button>
+                
+                
             </Grid>
         </Border>
         
-        <Grid Grid.RowSpan="2" x:Name="CreateTaskOverlay"
-              Background="#66000000"
-              Visibility="Collapsed">
-
-            <Border Background="WhiteSmoke"
-                    Width="450"
-                    Padding="20"
-                    CornerRadius="10"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center">
-
-                <StackPanel>
-                    <TextBlock Text="Create Task"
-                               FontSize="24"
-                               FontWeight="SemiBold"
-                               Margin="0,0,0,15"/>
-
-                    <TextBlock Text="Task Name"/>
-                    <TextBox x:Name="TaskNameInput"
-                             Margin="0,4,0,10"/>
-
-                    <TextBlock Text="Category"/>
-                    <TextBox x:Name="CategoryInput"
-                             Margin="0,4,0,10"/>
-
-                    <TextBlock Text="Description"/>
-                    <TextBox x:Name="DescriptionInput"
-                             Height="80"
-                             TextWrapping="Wrap"
-                             AcceptsReturn="True"
-                             Margin="0,4,0,15"/>
-                    
-                    <TextBlock Text="Start Date"/>
-                    <DatePicker x:Name="StartDateInput"/>
-                    
-                    <TextBlock Text="Start Time"/>
-                    <TextBox x:Name="StartTimeInput"
-                             Text="12:00 PM"/>
-
-                    <TextBlock Text="End Date"/>
-                    <DatePicker x:Name="EndDateInput"/>
-                    
-                    <TextBlock Text="End Time"/>
-                    <TextBox x:Name="EndTimeInput"
-                             Text="1:00 PM"/>
-
-                    <StackPanel Orientation="Horizontal"
-                                HorizontalAlignment="Right">
-
-                        <Button Name="BtnCancelCreateTask"
-                                Content="Cancel"
-                                Click="BtnCancelCreateTask_OnClick"
-                                Margin="0,0,8,0"/>
-
-                        <Button Name="BtnCreateTask"
-                                Content="Create"
-                                Click="BtnCreateTask_OnClick"/>
-
-                    </StackPanel>
-
-                </StackPanel>
-            </Border>
-
-        </Grid>
+        <userControls:TaskEditorView Grid.Row="0" Grid.RowSpan="2"
+            DataContext="{Binding Editor}"
+            Visibility="{Binding IsOpen,
+        Converter={StaticResource BoolToVisibilityConverter}}"/>
     </Grid>
 </UserControl>

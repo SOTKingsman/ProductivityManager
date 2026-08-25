@@ -1,0 +1,69 @@
+﻿<UserControl x:Class="ProductivityManager.Views.UserControls.TaskEditorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DesignWidth="1920" d:DesignHeight="1080">
+
+    <Grid Background="#66000000">
+        <Border Background="WhiteSmoke"
+                Width="450"
+                Padding="20"
+                CornerRadius="10"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+
+            <StackPanel>
+                <TextBlock Text="{Binding EditorTitle}"
+                           FontSize="24"
+                           FontWeight="SemiBold"
+                           Margin="0,0,0,15"/>
+
+                <TextBlock Text="Task Name"/>
+                <TextBox Text="{Binding TaskName, UpdateSourceTrigger=PropertyChanged}"
+                         Margin="0,4,0,10"/>
+
+                <TextBlock Text="Category"/>
+                <TextBox Text="{Binding Category, UpdateSourceTrigger=PropertyChanged}"
+                         Margin="0,4,0,10"/>
+
+                <TextBlock Text="Description"/>
+                <TextBox Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"
+                         Height="80"
+                         TextWrapping="Wrap"
+                         AcceptsReturn="True"
+                         Margin="0,4,0,15"/>
+
+                <TextBlock Text="Start Date"/>
+                <DatePicker SelectedDate="{Binding StartDate, Mode=TwoWay}"/>
+
+                <TextBlock Text="Start Time"/>
+                <TextBox Text="{Binding StartTime, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <TextBlock Text="End Date"/>
+                <DatePicker SelectedDate="{Binding EndDate, Mode=TwoWay}"/>
+
+                <TextBlock Text="End Time"/>
+                <TextBox Text="{Binding EndTime, UpdateSourceTrigger=PropertyChanged}"/>
+                
+                <TextBlock Text="{Binding ErrorMessage}"
+                           Foreground="Red"
+                           Margin="0,8,0,8"
+                           TextWrapping="Wrap"/>
+
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Right">
+
+                    <Button Content="Cancel"
+                            Command="{Binding CancelCommand}"
+                            Margin="0,0,8,0"/>
+
+                    <Button Content="{Binding SubmitButtonText}"
+                            Command="{Binding CreateTaskCommand}"/>
+
+                </StackPanel>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>
