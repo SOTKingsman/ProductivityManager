@@ -5,6 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d"
              d:DesignWidth="1920" d:DesignHeight="1080">
+    
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+    </UserControl.Resources>
 
     <Grid Background="#66000000">
         <Border Background="WhiteSmoke"
@@ -15,6 +19,12 @@
                 VerticalAlignment="Center">
 
             <StackPanel>
+                <StackPanel>
+                    <Button Content="Delete Task"
+                            Command="{Binding DeleteTaskCommand}"
+                            Visibility="{Binding IsEditing, Converter={StaticResource BoolToVisibilityConverter}}"
+                            Margin="300,0,0,0"/>
+                </StackPanel>
                 <TextBlock Text="{Binding EditorTitle}"
                            FontSize="24"
                            FontWeight="SemiBold"
