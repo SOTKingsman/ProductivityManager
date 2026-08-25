@@ -1,5 +1,4 @@
-﻿using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using ProductivityManager.Models.Task;
 using ProductivityManager.ViewModels;
 
@@ -7,11 +6,10 @@ namespace ProductivityManager.Views;
 
 public partial class TasksView : UserControl
 {
-    private readonly TasksViewModel _viewModel = new();
-
-    public TasksView()
+    public TasksView(TaskService taskService)
     {
         InitializeComponent();
-        DataContext = _viewModel;
+
+        DataContext = new TasksViewModel(taskService);
     }
 }

@@ -10,13 +10,8 @@ namespace ProductivityManager.ViewModels;
 public class TasksViewModel : INotifyPropertyChanged
 {
     private readonly TaskService _taskService;
-    public TaskEditorViewModel Editor { get; } = new();
+    public TaskEditorViewModel Editor { get; }
     public ObservableCollection<TaskModel> Tasks => _taskService.Tasks;
-
-    public TasksViewModel(TaskService taskService)
-    {
-        _taskService = taskService;
-    }
     
     private TaskModel? _selectedTask;
 
@@ -36,8 +31,11 @@ public class TasksViewModel : INotifyPropertyChanged
     
     public ICommand DeleteTaskCommand { get; }
 
-    public TasksViewModel()
+    public TasksViewModel(TaskService taskService)
     {
+        _taskService = taskService;
+        Editor = new TaskEditorViewModel(taskService);
+
         AddTaskCommand = new RelayCommand(_ => OpenCreateTask());
         EditTaskCommand = new RelayCommand(task =>
         {
@@ -46,7 +44,13 @@ public class TasksViewModel : INotifyPropertyChanged
                 OpenEditTask(taskModel);
             }
         });
-        DeleteTaskCommand = new RelayCommand(task => OpenDeleteTask());
+        DeleteTaskCommand = new RelayCommand(task =>
+        {
+            if (task is TaskModel taskModel)
+            {
+                OnTaskDeleted(taskModel);
+            }
+        });
 
         Editor.TaskCreated += OnTaskCreated;
         Editor.TaskEdited += OnTaskEdited;

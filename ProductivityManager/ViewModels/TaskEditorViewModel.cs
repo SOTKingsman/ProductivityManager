@@ -17,11 +17,6 @@ public class TaskEditorViewModel : INotifyPropertyChanged
     public string SubmitButtonText => _editingTask == null ? "Create" : "Confirm";
     public string EditorTitle => _editingTask == null ? "Create Task" : "Edit Task";
 
-    public TaskEditorViewModel(TaskService taskService)
-    {
-        _taskService = taskService;
-    }
-
     public void DeleteCurrentTask(TaskModel selectedTask)
     {
         _taskService.DeleteTask(selectedTask);
@@ -144,8 +139,10 @@ public class TaskEditorViewModel : INotifyPropertyChanged
         }
     }
 
-    public TaskEditorViewModel()
+    public TaskEditorViewModel(TaskService taskService)
     {
+        _taskService = taskService;
+
         CreateTaskCommand = new RelayCommand(_ => CreateTask());
         CancelCommand = new RelayCommand(_ => Cancel());
         DeleteTaskCommand = new RelayCommand(_ => DeleteTask());
