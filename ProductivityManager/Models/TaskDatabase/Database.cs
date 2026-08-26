@@ -44,7 +44,7 @@ public class Database
  
     public void SaveToFile(string filePath)
     {
-        List<TaskData> dataToSave = Tasks.Select(t => t.GetTaskData()).ToList();
+        List<TaskData> dataToSave = Tasks.Select<Task, TaskData>(t => t.GetTaskData()).ToList();
         
         var options = new JsonSerializerOptions { WriteIndented = true };
         string json = JsonSerializer.Serialize(dataToSave, options);
