@@ -1,5 +1,7 @@
 using System.DirectoryServices.ActiveDirectory;
 using System.Text;
+using ProductivityManager.Models;
+using ProductivityManager.Views.Models.TaskDatabase;
 
 namespace ProductivityManager.Models.Task;
 
@@ -59,4 +61,18 @@ public abstract class Task
             .AppendLine("Timeframe: ").Append(StartDateTime).Append(" - ").Append(EndDateTime)
             .ToString();
     }
+    
+    public Database.TaskData GetTaskData()
+    {
+        return new Database.TaskData
+        {
+            TaskName = TaskName,
+            Category = Category,
+            Description = Description,
+            StartDateTime = StartDateTime,
+            EndDateTime = EndDateTime
+        };
+    }
+    
+    
 }
