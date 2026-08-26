@@ -256,13 +256,14 @@ public class TaskEditorViewModel : INotifyPropertyChanged
 
     public void OpenDelete()
     {
-        
+       //If a pop up for confirmation is wanted
     }
 
     private void DeleteTask()
     {
         IsEditing = false;
-        
+        TaskDeleted?.Invoke(_editingTask);
+        Cancel();
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;
