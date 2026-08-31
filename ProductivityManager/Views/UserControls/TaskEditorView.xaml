@@ -48,12 +48,12 @@
                 <TextBlock Text="Start Date"/>
                 <DatePicker SelectedDate="{Binding StartDate, Mode=TwoWay}"/>
 
-                <TextBlock Text="Start Time"/>
-                <TextBox Text="{Binding StartTime, UpdateSourceTrigger=PropertyChanged}"/>
-
                 <TextBlock Text="End Date"/>
                 <DatePicker SelectedDate="{Binding EndDate, Mode=TwoWay}"/>
-
+                
+                <TextBlock Text="Start Time"/>
+                <TextBox Text="{Binding StartTime, UpdateSourceTrigger=PropertyChanged}"/>
+                
                 <TextBlock Text="End Time"/>
                 <TextBox Text="{Binding EndTime, UpdateSourceTrigger=PropertyChanged}"/>
                 

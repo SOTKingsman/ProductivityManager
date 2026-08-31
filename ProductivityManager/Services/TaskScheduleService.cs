@@ -27,20 +27,43 @@ public class TaskScheduleService
             );
         }
 
-        return GetOneTimeOccurrence(
+        return GetDailyOccurrences(
             task,
             rangeStart,
             rangeEnd
         );
     }
     
-    private List<TaskOccurrence> GetOneTimeOccurrence(TaskModel task, DateTime rangeStart, DateTime rangeEnd)
+    private List<TaskOccurrence> GetDailyOccurrences(
+        TaskModel task,
+        DateTime rangeStart,
+        DateTime rangeEnd)
     {
         List<TaskOccurrence> occurrences = new();
-        
-        if (task.EndDateTime >= rangeStart && task.StartDateTime <= rangeEnd)
+
+        DateTime currentDate = task.StartDateTime.Date;
+
+        while (currentDate <= task.EndDateTime.Date)
         {
-            occurrences.Add(new TaskOccurrence(task, task.StartDateTime, task.EndDateTime));
+            DateTime occurrenceStart =
+                currentDate + task.StartDateTime.TimeOfDay;
+
+            DateTime occurrenceEnd =
+                currentDate + task.EndDateTime.TimeOfDay;
+
+            if (occurrenceEnd >= rangeStart &&
+                occurrenceStart <= rangeEnd)
+            {
+                occurrences.Add(
+                    new TaskOccurrence(
+                        task,
+                        occurrenceStart,
+                        occurrenceEnd
+                    )
+                );
+            }
+
+            currentDate = currentDate.AddDays(1);
         }
 
         return occurrences;
