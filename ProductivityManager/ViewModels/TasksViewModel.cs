@@ -51,10 +51,6 @@ public class TasksViewModel : INotifyPropertyChanged
                 OnTaskDeleted(taskModel);
             }
         });
-
-        Editor.TaskCreated += OnTaskCreated;
-        Editor.TaskEdited += OnTaskEdited;
-        Editor.TaskDeleted += OnTaskDeleted;
     }
     
     private void OpenCreateTask()

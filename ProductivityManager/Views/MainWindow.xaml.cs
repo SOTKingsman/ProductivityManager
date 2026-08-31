@@ -15,7 +15,7 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
 
-        _homeView = new HomeView();
+        _homeView = new HomeView(_taskService);
         _tasksView = new TasksView(_taskService);
         _settingsView = new SettingsView();
 
