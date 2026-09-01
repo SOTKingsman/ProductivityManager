@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using ProductivityManager.Commands;
 using ProductivityManager.Models.Task;
+using ProductivityManager.Services;
 
 namespace ProductivityManager.ViewModels;
 

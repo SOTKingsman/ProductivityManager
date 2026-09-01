@@ -11,10 +11,17 @@ public class CalendarDayViewModel
 
     public string DateText => Date.ToString("MMM d");
 
+    public string DayNumber => Date.Day.ToString();
+
+    public bool IsInCurrentMonth { get; }
+
     public ObservableCollection<TaskOccurrence> Occurrences { get; } = new();
 
-    public CalendarDayViewModel(DateTime date)
+    public CalendarDayViewModel(
+        DateTime date,
+        bool isInCurrentMonth = true)
     {
         Date = date;
+        IsInCurrentMonth = isInCurrentMonth;
     }
 }

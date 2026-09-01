@@ -45,17 +45,83 @@
                          AcceptsReturn="True"
                          Margin="0,4,0,15"/>
 
-                <TextBlock Text="Start Date"/>
-                <DatePicker SelectedDate="{Binding StartDate, Mode=TwoWay}"/>
+                <TextBlock Text="Task Type"/>
 
-                <TextBlock Text="End Date"/>
-                <DatePicker SelectedDate="{Binding EndDate, Mode=TwoWay}"/>
+                <ComboBox ItemsSource="{Binding TaskTypes}"
+                          SelectedItem="{Binding SelectedTaskType}" Margin="0,4,0,15"/>
+                
+                <TextBlock Text="Start Date"/>
+
+                <DatePicker SelectedDate="{Binding StartDate, Mode=TwoWay}" Margin="0,4,0,10"/>
+                
+                <StackPanel Visibility="{Binding IsDaily, 
+                    Converter={StaticResource BoolToVisibilityConverter}}">
+                    <TextBlock Text="End Date"/>
+
+                    <DatePicker SelectedDate="{Binding EndDate, Mode=TwoWay}" Margin="0,4,0,10"/>
+                </StackPanel>
+                
+                <StackPanel Visibility="{Binding IsWeekly,
+              Converter={StaticResource BoolToVisibilityConverter}}">
+
+                    <CheckBox Content="No End Date"
+                              IsChecked="{Binding NoEndDate}"
+                              Margin="0,5,0,8"/>
+
+                    <TextBlock Text="End Date"/>
+
+                    <DatePicker SelectedDate="{Binding EndDate, Mode=TwoWay}"
+                                IsEnabled="{Binding HasEndDate}"
+                                Margin="0,4,0,12"/>
+
+                    <TextBlock Text="Repeat On"
+                               FontWeight="SemiBold"
+                               Margin="0,0,0,6"/>
+
+                    <UniformGrid Columns="4" Margin="0,0,0,12">
+                        <CheckBox Content="Sun" IsChecked="{Binding Sunday}"/>
+
+                        <CheckBox Content="Mon" IsChecked="{Binding Monday}"/>
+
+                        <CheckBox Content="Tue" IsChecked="{Binding Tuesday}"/>
+
+                        <CheckBox Content="Wed" IsChecked="{Binding Wednesday}"/>
+
+                        <CheckBox Content="Thu" IsChecked="{Binding Thursday}"/>
+
+                        <CheckBox Content="Fri" IsChecked="{Binding Friday}"/>
+
+                        <CheckBox Content="Sat" IsChecked="{Binding Saturday}"/>
+                    </UniformGrid>
+                </StackPanel>
+                
+                <StackPanel Visibility="{Binding IsMonthly,
+                    Converter={StaticResource BoolToVisibilityConverter}}">
+                    <CheckBox Content="No End Date" IsChecked="{Binding NoEndDate}"
+                              Margin="0,5,0,8"/>
+
+                    <TextBlock Text="End Date"/>
+
+                    <DatePicker SelectedDate="{Binding EndDate, Mode=TwoWay}"
+                                IsEnabled="{Binding HasEndDate}" Margin="0,4,0,12"/>
+
+                    <TextBlock Text="Day of Month"/>
+
+                    <TextBox Text="{Binding DayOfMonth, UpdateSourceTrigger=PropertyChanged}" 
+                             Margin="0,4,0,10"/>
+                </StackPanel>
                 
                 <TextBlock Text="Start Time"/>
-                <TextBox Text="{Binding StartTime, UpdateSourceTrigger=PropertyChanged}"/>
-                
+
+                <TextBox Text="{Binding StartTime,
+                UpdateSourceTrigger=PropertyChanged}"
+                         Margin="0,4,0,10"/>
+
                 <TextBlock Text="End Time"/>
-                <TextBox Text="{Binding EndTime, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <TextBox Text="{Binding EndTime,
+                UpdateSourceTrigger=PropertyChanged}"
+                         Margin="0,4,0,10"/>
                 
                 <TextBlock Text="{Binding ErrorMessage}"
                            Foreground="Red"

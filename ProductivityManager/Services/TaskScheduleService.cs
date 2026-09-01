@@ -77,7 +77,7 @@ public class TaskScheduleService
 
         DateTime currentDate = rangeStart.Date;
         
-        while (currentDate <= rangeEnd.Date && currentDate <= task.RepeatUntil.Date)
+        while (currentDate <= rangeEnd.Date && (!task.RepeatUntil.HasValue || currentDate <= task.RepeatUntil.Value.Date))
         {
             if (currentDate >= task.StartDateTime.Date && task.ScheduledDays.Contains(currentDate.DayOfWeek))
             {
@@ -110,9 +110,9 @@ public class TaskScheduleService
         DateTime currentMonth =
             new DateTime(rangeStart.Year, rangeStart.Month, 1);
 
-        while (currentMonth <= rangeEnd.Date &&
-               currentMonth <= task.RepeatUntil.Date)
+        while (currentMonth <= rangeEnd.Date && (!task.RepeatUntil.HasValue || currentMonth <= task.RepeatUntil.Value.Date))
         {
+            
             int daysInMonth = DateTime.DaysInMonth(
                 currentMonth.Year,
                 currentMonth.Month
@@ -125,9 +125,10 @@ public class TaskScheduleService
                     currentMonth.Month,
                     task.DayOfMonth
                 );
+                
+                bool beforeRepeatEnd = !task.RepeatUntil.HasValue || occurrenceDate <= task.RepeatUntil.Value.Date;
 
-                if (occurrenceDate >= task.StartDateTime.Date &&
-                    occurrenceDate <= task.RepeatUntil.Date)
+                if (occurrenceDate >= task.StartDateTime.Date && beforeRepeatEnd)
                 {
                     DateTime occurrenceStart =
                         occurrenceDate + task.StartDateTime.TimeOfDay;
