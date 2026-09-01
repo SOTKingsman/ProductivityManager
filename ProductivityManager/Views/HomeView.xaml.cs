@@ -1,13 +1,15 @@
 ﻿using System.Windows.Controls;
+using ProductivityManager.Models.Task;
+using ProductivityManager.ViewModels;
 
 namespace ProductivityManager.Views;
 
 public partial class HomeView : UserControl
 {
-    public HomeView()
+    public HomeView(TaskService taskService)
     {
         InitializeComponent();
-        
-        CurrentDateText.Text = DateTime.Now.ToString("dddd, MMMM d, yyyy");
+
+        DataContext = new HomeViewModel(taskService);
     }
 }
