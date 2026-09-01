@@ -5,10 +5,10 @@ using ProductivityManager.Views.Models.TaskDatabase;
 
 namespace ProductivityManager.Models.Task;
 
-public abstract class Task
+public class TaskModel
 {
     protected StringBuilder Sb = new StringBuilder();
-    private string TaskName
+    public string TaskName
     {
         get;
         set
@@ -19,7 +19,7 @@ public abstract class Task
             }
         }
     }
-    private string Category
+    public string Category
     {
         get;
         set
@@ -30,7 +30,7 @@ public abstract class Task
             }
         }
     }
-    private string Description
+    public string Description
     {
         get;
         set
@@ -41,10 +41,10 @@ public abstract class Task
             }
         }
     }
-    private DateTime StartDateTime { get; set; }
-    private DateTime EndDateTime { get; set; }
+    public DateTime StartDateTime { get; set; }
+    public DateTime EndDateTime { get; set; }
 
-    public Task(string taskName,string category,string description,DateTime start,DateTime end)
+    public TaskModel(string taskName,string category,string description, DateTime start, DateTime end)
     {
         TaskName = taskName;
         Category = category;
@@ -55,10 +55,13 @@ public abstract class Task
     
     public override string ToString()
     {
-        return Sb.Append("Task: ").Append(TaskName)
-            .AppendLine("Category: ").Append(Category)
-            .AppendLine("Description: ").Append(Description)
-            .AppendLine("Timeframe: ").Append(StartDateTime).Append(" - ").Append(EndDateTime)
+        return Sb.Append("Task: ").AppendLine(TaskName)
+            .Append("Category: ").AppendLine(Category)
+            .Append("Description: ").AppendLine(Description)
+            .Append("Timeframe: ").Append(StartDateTime.ToShortDateString()).Append(", ")
+            .Append(StartDateTime.ToShortTimeString()).Append(" - ")
+            .Append(EndDateTime.ToShortDateString()).Append(", ")
+            .Append(EndDateTime.ToShortTimeString())
             .ToString();
     }
     

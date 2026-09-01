@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:ProductivityManager.Views"
         xmlns:userControls="clr-namespace:ProductivityManager.Views.UserControls"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        WindowState="Maximized"
+        Title="MainWindow" Width="1920" Height="1080">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="125"></ColumnDefinition>

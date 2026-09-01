@@ -1,16 +1,24 @@
 ﻿using System.Text;
 using System.Windows;
+using ProductivityManager.Models.Task;
 
 namespace ProductivityManager.Views;
  
 public partial class MainWindow : Window
 {
-    HomeView _homeView = new HomeView();
-    TasksView _tasksView = new TasksView();
-    SettingsView _settingsView = new SettingsView();
+    private readonly TaskService _taskService = new();
+
+    private readonly HomeView _homeView;
+    private readonly TasksView _tasksView;
+    private readonly SettingsView _settingsView;
     public MainWindow()
     {
         InitializeComponent();
+
+        _homeView = new HomeView(_taskService);
+        _tasksView = new TasksView(_taskService);
+        _settingsView = new SettingsView();
+
         MainContent.Content = _homeView;
     }
 

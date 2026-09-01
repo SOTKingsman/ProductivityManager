@@ -4,8 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:ProductivityManager.Views"
+             xmlns:userControls="clr-namespace:ProductivityManager.Views.UserControls"
              mc:Ignorable="d"
-             d:DesignHeight="450" d:DesignWidth="675">
+             d:DesignWidth="1920" d:DesignHeight="1080">
+    
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+    </UserControl.Resources>
+    
     <Grid Background="#F5F5F5">
         <Grid.RowDefinitions>
             <RowDefinition Height="70"/>
@@ -26,11 +32,81 @@
                 BorderBrush="#CCCCCC"
                 BorderThickness="1"
                 CornerRadius="5">
+            <Grid>
+                <ListBox x:Name="TaskList"
+                         ItemsSource="{Binding Tasks}"
+                         SelectedItem="{Binding SelectedTask, Mode=TwoWay}"
+                         Background="Transparent"
+                         BorderThickness="0"
+                         HorizontalContentAlignment="Stretch"
+                         SelectionMode="Single">
 
-            <ListBox x:Name="TaskList"
-                     Background="Transparent"
-                     BorderThickness="0"
-                     Padding="10"/>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            
+                            <Button Command="{Binding DataContext.EditTaskCommand,
+                                              RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                    CommandParameter="{Binding}"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    HorizontalContentAlignment="Stretch">
+
+                                <Border Background="WhiteSmoke"
+                                        BorderBrush="#444444"
+                                        BorderThickness="1"
+                                        CornerRadius="8"
+                                        Padding="12"
+                                        Margin="4">
+
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding TaskName}"
+                                                   FontSize="18"
+                                                   FontWeight="SemiBold"/>
+
+                                        <TextBlock Text="{Binding Category}"
+                                                   FontSize="12"
+                                                   Margin="0,2,0,0"/>
+
+                                        <TextBlock Text="{Binding Description}"
+                                                   Margin="0,8,0,0"
+                                                   TextWrapping="Wrap"/>
+                                    
+                                        <TextBlock Text="{Binding StartDateTime}"
+                                                   Margin="0,8,0,0"
+                                                   TextWrapping="Wrap"/>
+                                    
+                                        <TextBlock Text="{Binding EndDateTime}"
+                                                   Margin="0,8,0,0"
+                                                   TextWrapping="Wrap"/>
+                                    </StackPanel>
+
+                                </Border>
+
+                            </Button>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                    
+                </ListBox>
+                
+                <Button Name="BtnAddTask"
+                        Height="35"
+                        Width="70"
+                        FontSize="15"
+                        Content="Add Task"
+                        Background="LightGray"
+                        BorderBrush="Gray"
+                        VerticalAlignment="Bottom"
+                        HorizontalAlignment="Right"
+                        Margin="25"
+                        Command="{Binding AddTaskCommand}">
+                </Button>
+                
+                
+            </Grid>
         </Border>
+        
+        <userControls:TaskEditorView Grid.Row="0" Grid.RowSpan="2"
+            DataContext="{Binding Editor}"
+            Visibility="{Binding IsOpen, Converter={StaticResource BoolToVisibilityConverter}}"/>
     </Grid>
 </UserControl>
