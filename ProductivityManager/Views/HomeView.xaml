@@ -7,47 +7,58 @@
              mc:Ignorable="d"
              d:DesignHeight="1920"
              d:DesignWidth="1080">
-    
+
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
     </UserControl.Resources>
 
     <Grid Background="#F5F5F5">
-
         <Grid.RowDefinitions>
             <RowDefinition Height="70"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
+        <!-- Header -->
         <Grid Grid.Row="0">
+            <!-- Add Task -->
+            <Button Content="+ Add Task" Command="{Binding AddTaskCommand}" HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Margin="20,0,0,0"
+                    Padding="12,6"/>
 
-            <TextBlock Text="{Binding CurrentDateText}"
-                       HorizontalAlignment="Center"
+            <!-- Current Date -->
+            <TextBlock Text="{Binding CurrentDateText}" HorizontalAlignment="Center" 
                        VerticalAlignment="Center"
                        FontSize="24"
                        FontWeight="SemiBold"
                        Foreground="#202020"/>
 
-            <Button Content="Add Task"
-                    Command="{Binding AddTaskCommand}"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Center"
-                    Margin="0,0,20,0"
-                    Padding="12,6"/>
+            <!-- Calendar View Selection -->
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Margin="0,0,20,0">
 
+                <Button Content="Weekly" Command="{Binding ShowWeeklyCommand}" Padding="12,6"
+                        Margin="0,0,5,0"/>
+
+                <Button Content="Monthly" Command="{Binding ShowMonthlyCommand}" Padding="12,6"/>
+
+            </StackPanel>
         </Grid>
 
-        <!-- Seven Days -->
-        <ItemsControl Grid.Row="1"
-                      ItemsSource="{Binding Days}"
+
+        <!-- WEEKLY CALENDAR -->
+        <ItemsControl Grid.Row="1" ItemsSource="{Binding Days}" Visibility="{Binding IsWeeklyView,
+                      Converter={StaticResource BoolToVisibilityConverter}}"
                       Margin="15,0,15,15">
-            
+
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <UniformGrid Columns="7"/>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
-            
+
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <!-- One Day -->
@@ -78,78 +89,174 @@
                                        HorizontalAlignment="Center"
                                        Foreground="#606060"
                                        Margin="0,2,0,10"/>
-                            
-                            <!-- Tasks For This Day -->
-                            <ItemsControl Grid.Row="2" ItemsSource="{Binding Occurrences}">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <Button Command="{Binding DataContext.OpenTaskCommand,
-                                            RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                CommandParameter="{Binding Task}"
-                                                Background="Transparent"
-                                                BorderThickness="0"
-                                                Padding="0"
-                                                Margin="0,3"
-                                                HorizontalContentAlignment="Stretch">
 
-                                            <Border Background="WhiteSmoke"
-                                                    BorderBrush="#444444"
-                                                    BorderThickness="1"
-                                                    CornerRadius="6"
-                                                    Padding="8">
+                            <!-- Tasks -->
+                            <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto"
+                                          HorizontalScrollBarVisibility="Disabled">
+                                <ItemsControl ItemsSource="{Binding Occurrences}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Button Command="{Binding DataContext.OpenTaskCommand,
+                                                RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    CommandParameter="{Binding Task}"
+                                                    Background="Transparent"
+                                                    BorderThickness="0"
+                                                    Padding="0"
+                                                    Margin="0,3"
+                                                    HorizontalContentAlignment="Stretch">
 
-                                                <StackPanel>
-                                                    <!-- Name -->
-                                                    <TextBlock Text="{Binding Task.TaskName}"
-                                                               FontSize="14"
-                                                               FontWeight="SemiBold"
-                                                               TextWrapping="Wrap"/>
+                                                <Border Background="WhiteSmoke"
+                                                        BorderBrush="#444444"
+                                                        BorderThickness="1"
+                                                        CornerRadius="6"
+                                                        Padding="8">
+                                                    <StackPanel>
+                                                        
+                                                        <!-- Name -->
+                                                        <TextBlock Text="{Binding Task.TaskName}"
+                                                                   FontSize="14"
+                                                                   FontWeight="SemiBold"
+                                                                   TextWrapping="Wrap"/>
 
-                                                    <!-- Category -->
-                                                    <TextBlock Text="{Binding Task.Category}"
-                                                               FontSize="11"
-                                                               Foreground="#606060"
-                                                               Margin="0,2,0,4"/>
+                                                        <!-- Category -->
+                                                        <TextBlock Text="{Binding Task.Category}"
+                                                                   FontSize="11"
+                                                                   Foreground="#606060"
+                                                                   Margin="0,2,0,4"/>
 
-                                                    <!-- Time -->
-                                                    <StackPanel Orientation="Horizontal">
+                                                        <!-- Time -->
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="{Binding StartDateTime,
+                                                                StringFormat={}{0:h:mm tt}}"
+                                                                       FontSize="12"/>
 
-                                                        <TextBlock Text="{Binding StartDateTime,
-                                                            StringFormat={}{0:h:mm tt}}"
-                                                                   FontSize="12"/>
+                                                            <TextBlock Text=" - "
+                                                                       FontSize="12"/>
 
-                                                        <TextBlock Text=" - "
-                                                                   FontSize="12"/>
-
-                                                        <TextBlock Text="{Binding EndDateTime,
-                                                            StringFormat={}{0:h:mm tt}}"
-                                                                   FontSize="12"/>
-
+                                                            <TextBlock Text="{Binding EndDateTime,
+                                                                StringFormat={}{0:h:mm tt}}"
+                                                                       FontSize="12"/>
+                                                        </StackPanel>
+                                                        
+                                                        <!-- Description -->
+                                                        <TextBlock Text="{Binding Task.Description}"
+                                                                   FontSize="11"
+                                                                   Foreground="#606060"
+                                                                   TextWrapping="Wrap"
+                                                                   MaxHeight="35"
+                                                                   Margin="0,5,0,0"/>
                                                     </StackPanel>
-
-                                                    <!-- Description -->
-                                                    <TextBlock Text="{Binding Task.Description}"
-                                                               FontSize="11"
-                                                               Foreground="#606060"
-                                                               TextWrapping="Wrap"
-                                                               MaxHeight="35"
-                                                               Margin="0,5,0,0"/>
-                                                </StackPanel>
-                                            </Border>
-                                        </Button>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
+                                                </Border>
+                                            </Button>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </ScrollViewer>
                         </Grid>
                     </Border>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        
+
+        <!-- MONTHLY CALENDAR -->
+        <ItemsControl Grid.Row="1" ItemsSource="{Binding Days}" Visibility="{Binding IsMonthlyView,
+                      Converter={StaticResource BoolToVisibilityConverter}}"
+                      Margin="15,0,15,15">
+
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Columns="7"
+                                 Rows="6"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <!-- One Day -->
+                    <Border Background="White"
+                            BorderBrush="#CCCCCC"
+                            BorderThickness="1"
+                            CornerRadius="4"
+                            Margin="2"
+                            Padding="5">
+
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <!-- Day Number -->
+                            <TextBlock Grid.Row="0"
+                                       Text="{Binding DayNumber}"
+                                       HorizontalAlignment="Right"
+                                       FontSize="13"
+                                       FontWeight="SemiBold"
+                                       Margin="0,0,3,3"/>
+
+                            <!-- Tasks -->
+                            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto"
+                                          HorizontalScrollBarVisibility="Disabled">
+                                <ItemsControl ItemsSource="{Binding Occurrences}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Button Command="{Binding DataContext.OpenTaskCommand,
+                                                RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    CommandParameter="{Binding Task}"
+                                                    Background="Transparent"
+                                                    BorderThickness="0"
+                                                    Padding="0"
+                                                    Margin="0,1"
+                                                    HorizontalContentAlignment="Stretch">
+
+                                                <!-- Tiny Monthly Task Card -->
+                                                <Border Background="WhiteSmoke"
+                                                        BorderBrush="#CCCCCC"
+                                                        BorderThickness="1"
+                                                        CornerRadius="3"
+                                                        Padding="3">
+
+                                                    <StackPanel>
+                                                        <!-- Name -->
+                                                        <TextBlock Text="{Binding Task.TaskName}"
+                                                                   FontSize="10"
+                                                                   FontWeight="SemiBold"
+                                                                   TextWrapping="NoWrap"
+                                                                   TextTrimming="CharacterEllipsis"/>
+
+                                                        <!-- Time -->
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="{Binding StartDateTime,
+                                                                StringFormat={}{0:h:mm tt}}"
+                                                                       FontSize="12"/>
+
+                                                            <TextBlock Text=" - "
+                                                                       FontSize="12"/>
+
+                                                            <TextBlock Text="{Binding EndDateTime,
+                                                                StringFormat={}{0:h:mm tt}}"
+                                                                       FontSize="12"/>
+                                                        </StackPanel>
+                                                    </StackPanel>
+                                                </Border>
+                                            </Button>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </ScrollViewer>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <!-- TASK EDITOR OVERLAY -->
         <userControls:TaskEditorView
             Grid.Row="0"
             Grid.RowSpan="2"
             DataContext="{Binding Editor}"
-            Visibility="{Binding IsOpen, Converter={StaticResource BoolToVisibilityConverter}}"/>
+            Visibility="{Binding IsOpen,
+                Converter={StaticResource BoolToVisibilityConverter}}"/>
+
     </Grid>
 </UserControl>

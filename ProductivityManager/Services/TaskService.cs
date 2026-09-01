@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
+using ProductivityManager.Models.Task;
 
-namespace ProductivityManager.Models.Task;
+namespace ProductivityManager.Services;
 
 public class TaskService
 {
