@@ -29,7 +29,7 @@ public class TaskDao
         await command.ExecuteNonQueryAsync();
     }
 
-    public TaskModel getTaskById(int id)
+    public TaskModel GetTaskById(int id)
     {
         using var connection = new SqliteConnection(_connectionString);
         connection.Open();
@@ -40,12 +40,11 @@ public class TaskDao
         using var reader = command.ExecuteReader();
         if (reader.Read() &&  reader["status"].ToString().Equals("weekly"))
         {
-            return new WeeklyTaskModel(reader.GetString(0),  reader.GetString(1), reader.GetString(2), reader.GetDateTime(3), reader.GetDateTime(4));
+            return new WeeklyTaskModel(reader.GetString(0),  reader.GetString(1), reader.GetString(2), reader.GetDateTime(3), reader.GetDateTime(4), new List<DayOfWeek>(), reader.GetDateTime(4));
         } else if (reader.Read() && reader["status"].ToString().Equals("monthly"))
         {
-            return new MonthlyTaskModel(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetDateTime(3), reader.GetDateTime(4));
+            return new MonthlyTaskModel(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetDateTime(3), reader.GetDateTime(4), reader.GetDateTime(3).Day, reader.GetDateTime(4));
         }
-
         return null;
     }
 
@@ -61,7 +60,7 @@ public class TaskDao
         using var reader = command.ExecuteReader();
         while (reader.Read())
         {
-            var task = new MonthlyTaskModel(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetDateTime(3), reader.GetDateTime(4));
+            var task = new MonthlyTaskModel(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetDateTime(3), reader.GetDateTime(4), reader.GetDateTime(3).Day, reader.GetDateTime(4));
             monthlyTasks.Add(task);
         }
         return monthlyTasks;
@@ -79,7 +78,7 @@ public class TaskDao
         using var reader = command.ExecuteReader();
         while (reader.Read())
         {
-            var task = new WeeklyTaskModel(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetDateTime(3), reader.GetDateTime(4));
+            var task = new WeeklyTaskModel(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetDateTime(3), reader.GetDateTime(4), new List<DayOfWeek>(),  reader.GetDateTime(4));
             weeklyTasks.Add(task);
         }
         return weeklyTasks;

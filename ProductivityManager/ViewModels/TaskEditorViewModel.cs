@@ -8,6 +8,9 @@ namespace ProductivityManager.ViewModels;
 
 public class TaskEditorViewModel : INotifyPropertyChanged
 {
+    public event Action<TaskModel>? TaskCreated;
+    public event Action<TaskModel, TaskModel>? TaskEdited;
+    public event Action<TaskModel>? TaskDeleted;
     private TaskModel? _editingTask;
     
     private readonly TaskService _taskService;
@@ -205,11 +208,11 @@ public class TaskEditorViewModel : INotifyPropertyChanged
 
         if (_editingTask == null)
         {
-            _taskService.AddTask(task);
+            TaskCreated?.Invoke(task);
         }
         else
         {
-            _taskService.UpdateTask(_editingTask, task);
+            TaskEdited?.Invoke(_editingTask, task);
         }
 
         IsEditing = false;
@@ -253,16 +256,13 @@ public class TaskEditorViewModel : INotifyPropertyChanged
 
     public void OpenDelete()
     {
-       //If a pop-up for confirmation is wanted
+       //If a pop up for confirmation is wanted
     }
 
     private void DeleteTask()
     {
-        if (_editingTask != null)
-        {
-            _taskService.DeleteTask(_editingTask);
-        }
-
+        IsEditing = false;
+        TaskDeleted?.Invoke(_editingTask);
         Cancel();
     }
 

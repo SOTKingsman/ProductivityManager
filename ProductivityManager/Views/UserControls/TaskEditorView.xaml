@@ -61,7 +61,12 @@
                            Foreground="Red"
                            Margin="0,8,0,8"
                            TextWrapping="Wrap"/>
-
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Left">
+                    <Button Content="Mark as Complete"
+                            Command = "{Binding CompleteCommand}"
+                            Visibility="{Binding IsEditing, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                </StackPanel>
                 <StackPanel Orientation="Horizontal"
                             HorizontalAlignment="Right">
 
