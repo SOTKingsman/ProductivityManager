@@ -219,7 +219,7 @@ public class TaskEditorViewModel : INotifyPropertyChanged
         _editingTask = null;
         IsOpen = false;
         ClearInputs();
-    }
+    } 
 
     private void ClearInputs()
     {
