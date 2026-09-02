@@ -1,38 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Text.Json;
 using ProductivityManager.Models.Task;
-using Task = ProductivityManager.Models.Task.Task;
 
 namespace ProductivityManager.Views.Models.TaskDatabase;
 
-public class Database
+
+public static class Database
 {
-    public List<Task> Tasks { get; } = new List<Task>();
- 
-    public bool AddTask(Task task)
-    {
-        if (task == null)
-        {
-            return false;
-        }
- 
-        Tasks.Add(task);
-        return true;
-    }
- 
-    public bool DeleteTask(Task task)
-    {
-        return Tasks.Remove(task);
-    }
- 
-    public List<Task> GetTasks()
-    {
-        return Tasks;
-    }
-    
     public class TaskData
     {
         public string TaskName { get; set; }
@@ -41,31 +15,55 @@ public class Database
         public DateTime StartDateTime { get; set; }
         public DateTime EndDateTime { get; set; }
     }
- 
-    public void SaveToFile(string filePath)
+
+    private static TaskData ToTaskData(TaskModel task)
     {
-        List<TaskData> dataToSave = Tasks.Select<Task, TaskData>(t => t.GetTaskData()).ToList();
-        
+        return new TaskData
+        {
+            TaskName = task.TaskName,
+            Category = task.Category,
+            Description = task.Description,
+            StartDateTime = task.StartDateTime,
+            EndDateTime = task.EndDateTime
+        };
+    }
+
+    private static TaskModel FromTaskData(TaskData data)
+    {
+        return new TaskModel(
+            data.TaskName,
+            data.Category,
+            data.Description,
+            data.StartDateTime,
+            data.EndDateTime
+        );
+    }
+
+    public static void SaveToFile(IEnumerable<TaskModel> tasks, string filePath)
+    {
+        List<TaskData> dataToSave = tasks.Select(ToTaskData).ToList();
+
         var options = new JsonSerializerOptions { WriteIndented = true };
         string json = JsonSerializer.Serialize(dataToSave, options);
- 
+
         File.WriteAllText(filePath, json);
     }
- 
-    public List<TaskData> LoadFromFile(string filePath)
+
+    public static List<TaskModel> LoadFromFile(string filePath)
     {
         if (!File.Exists(filePath))
         {
-            return new List<TaskData>();
+            return new List<TaskModel>();
         }
- 
+
         string json = File.ReadAllText(filePath);
         List<TaskData> loadedData = JsonSerializer.Deserialize<List<TaskData>>(json);
- 
-        return loadedData ?? new List<TaskData>();
+
+        if (loadedData == null)
+        {
+            return new List<TaskModel>();
+        }
+
+        return loadedData.Select(FromTaskData).ToList();
     }
 }
-
-
-
-
