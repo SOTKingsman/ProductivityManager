@@ -464,6 +464,14 @@ public class TaskEditorViewModel : INotifyPropertyChanged
                 break;
             }
         }
+        
+        if (_editingTask != null)
+        {
+            foreach (DateTime completedOccurrence in _editingTask.CompletedOccurrences)
+            {
+                task.CompletedOccurrences.Add(completedOccurrence);
+            }
+        }
     
         if (_editingTask == null)
         {

@@ -41,6 +41,8 @@ public class TaskModel
     }
     public DateTime StartDateTime { get; set; }
     public DateTime EndDateTime { get; set; }
+    
+    public HashSet<DateTime> CompletedOccurrences { get; } = new();
 
     public TaskModel(string taskName,string category,string description, DateTime start, DateTime end)
     {

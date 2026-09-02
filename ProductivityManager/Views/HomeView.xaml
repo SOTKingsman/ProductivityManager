@@ -96,58 +96,99 @@
                                 <ItemsControl ItemsSource="{Binding Occurrences}">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <Button Command="{Binding DataContext.OpenTaskCommand,
-                                                RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                    CommandParameter="{Binding Task}"
-                                                    Background="Transparent"
-                                                    BorderThickness="0"
-                                                    Padding="0"
-                                                    Margin="0,3"
-                                                    HorizontalContentAlignment="Stretch">
+                                            <Grid Margin="0,3">
 
-                                                <Border Background="WhiteSmoke"
-                                                        BorderBrush="#444444"
-                                                        BorderThickness="1"
-                                                        CornerRadius="6"
-                                                        Padding="8">
-                                                    <StackPanel>
-                                                        
-                                                        <!-- Name -->
-                                                        <TextBlock Text="{Binding Task.TaskName}"
-                                                                   FontSize="14"
-                                                                   FontWeight="SemiBold"
-                                                                   TextWrapping="Wrap"/>
-
-                                                        <!-- Category -->
-                                                        <TextBlock Text="{Binding Task.Category}"
-                                                                   FontSize="11"
-                                                                   Foreground="#606060"
-                                                                   Margin="0,2,0,4"/>
-
-                                                        <!-- Time -->
-                                                        <StackPanel Orientation="Horizontal">
-                                                            <TextBlock Text="{Binding StartDateTime,
-                                                                StringFormat={}{0:h:mm tt}}"
-                                                                       FontSize="12"/>
-
-                                                            <TextBlock Text=" - "
-                                                                       FontSize="12"/>
-
-                                                            <TextBlock Text="{Binding EndDateTime,
-                                                                StringFormat={}{0:h:mm tt}}"
-                                                                       FontSize="12"/>
+                                                <Button Command="{Binding DataContext.OpenTaskCommand,
+                                                    RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        CommandParameter="{Binding Task}"
+                                                        Background="Transparent"
+                                                        BorderThickness="0"
+                                                        Padding="0"
+                                                        HorizontalContentAlignment="Stretch">
+                                            
+                                                    <Border BorderBrush="#444444"
+                                                            BorderThickness="1"
+                                                            CornerRadius="6"
+                                                            Padding="8">
+                                            
+                                                        <Border.Style>
+                                                            <Style TargetType="Border">
+                                                                <Setter Property="Background"
+                                                                        Value="WhiteSmoke"/>
+                                                                
+                                                                <Setter Property="Opacity"
+                                                                        Value="1"/>
+                                            
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding IsCompleted}"
+                                                                                 Value="True">
+                                            
+                                                                        <Setter Property="Opacity"
+                                                                                Value="0.5"/>
+                                            
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Border.Style>
+                                                        <StackPanel Margin="0,0,25,0">
+                                            
+                                                            <!-- Name -->
+                                                            <TextBlock Text="{Binding Task.TaskName}"
+                                                                       FontSize="14"
+                                                                       FontWeight="SemiBold"
+                                                                       TextWrapping="Wrap">
+                                            
+                                                                <TextBlock.Style>
+                                                                    <Style TargetType="TextBlock">
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding IsCompleted}"
+                                                                                         Value="True">
+                                                                                <Setter Property="TextDecorations"
+                                                                                        Value="Strikethrough"/>
+                                            
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </TextBlock.Style>
+                                            
+                                                            </TextBlock>
+                                                            <!-- Category -->
+                                                            <TextBlock Text="{Binding Task.Category}"
+                                                                       FontSize="11"
+                                                                       Foreground="#606060"
+                                                                       Margin="0,2,0,4"/>
+                                            
+                                                            <!-- Time -->
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <TextBlock Text="{Binding StartDateTime,
+                                                                    StringFormat={}{0:h:mm tt}}"
+                                                                           FontSize="12"/>
+                                            
+                                                                <TextBlock Text=" - "
+                                                                           FontSize="12"/>
+                                            
+                                                                <TextBlock Text="{Binding EndDateTime,
+                                                                    StringFormat={}{0:h:mm tt}}"
+                                                                           FontSize="12"/>
+                                                            </StackPanel>
+                                            
+                                                            <!-- Description -->
+                                                            <TextBlock Text="{Binding Task.Description}"
+                                                                       FontSize="11"
+                                                                       Foreground="#606060"
+                                                                       TextWrapping="Wrap"
+                                                                       MaxHeight="35"
+                                                                       Margin="0,5,0,0"/>
                                                         </StackPanel>
-                                                        
-                                                        <!-- Description -->
-                                                        <TextBlock Text="{Binding Task.Description}"
-                                                                   FontSize="11"
-                                                                   Foreground="#606060"
-                                                                   TextWrapping="Wrap"
-                                                                   MaxHeight="35"
-                                                                   Margin="0,5,0,0"/>
-                                                    </StackPanel>
-                                                </Border>
-                                            </Button>
+                                                    </Border>
+                                                </Button>
+                                                <!-- Complete occurrence -->
+                                                <CheckBox IsChecked="{Binding IsCompleted, Mode=TwoWay}"
+                                                          HorizontalAlignment="Right"
+                                                          VerticalAlignment="Top"
+                                                          Margin="0,10,10,0"
+                                                          ToolTip="Mark task complete"/>
+                                            </Grid>                                                
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
@@ -200,46 +241,57 @@
                                 <ItemsControl ItemsSource="{Binding Occurrences}">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <Button Command="{Binding DataContext.OpenTaskCommand,
-                                                RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                    CommandParameter="{Binding Task}"
-                                                    Background="Transparent"
-                                                    BorderThickness="0"
-                                                    Padding="0"
-                                                    Margin="0,1"
-                                                    HorizontalContentAlignment="Stretch">
+                                            <Grid Margin="0,1">
 
-                                                <!-- Tiny Monthly Task Card -->
-                                                <Border Background="WhiteSmoke"
-                                                        BorderBrush="#CCCCCC"
-                                                        BorderThickness="1"
-                                                        CornerRadius="3"
-                                                        Padding="3">
+                                                <!-- Click to edit -->
+                                                <Button Command="{Binding DataContext.OpenTaskCommand,
+                                                        RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        CommandParameter="{Binding Task}"
+                                                        Background="Transparent"
+                                                        BorderThickness="0"
+                                                        Padding="0"
+                                                        HorizontalContentAlignment="Stretch">
 
-                                                    <StackPanel>
-                                                        <!-- Name -->
-                                                        <TextBlock Text="{Binding Task.TaskName}"
-                                                                   FontSize="10"
-                                                                   FontWeight="SemiBold"
-                                                                   TextWrapping="NoWrap"
-                                                                   TextTrimming="CharacterEllipsis"/>
+                                                    <Border BorderBrush="#CCCCCC"
+                                                            BorderThickness="1"
+                                                            CornerRadius="3"
+                                                            Padding="3">
+                                                        <Border.Style>
+                                                            <Style TargetType="Border">
+                                                                <Setter Property="Background"
+                                                                        Value="WhiteSmoke"/>
 
-                                                        <!-- Time -->
-                                                        <StackPanel Orientation="Horizontal">
+                                                                <Setter Property="Opacity"
+                                                                        Value="1"/>
+                                                                
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding IsCompleted}"
+                                                                            Value="True">
+                                                                        <Setter Property="Opacity" Value="0.5"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Border.Style>
+                                                        <StackPanel Margin="0,0,18,0">
+                                                            <TextBlock Text="{Binding Task.TaskName}"
+                                                                       FontSize="10"
+                                                                       FontWeight="SemiBold"
+                                                                       TextWrapping="NoWrap"
+                                                                       TextTrimming="CharacterEllipsis"/>
+
                                                             <TextBlock Text="{Binding StartDateTime,
-                                                                StringFormat={}{0:h:mm tt}}"
-                                                                       FontSize="12"/>
-
-                                                            <TextBlock Text=" - "
-                                                                       FontSize="12"/>
-
-                                                            <TextBlock Text="{Binding EndDateTime,
-                                                                StringFormat={}{0:h:mm tt}}"
-                                                                       FontSize="12"/>
+                                                                        StringFormat={}{0:h:mm tt}}"
+                                                                       FontSize="9"
+                                                                       Foreground="#606060"/>
                                                         </StackPanel>
-                                                    </StackPanel>
-                                                </Border>
-                                            </Button>
+                                                    </Border>
+                                                </Button>
+                                                <CheckBox IsChecked="{Binding IsCompleted, Mode=TwoWay}"
+                                                          HorizontalAlignment="Right"
+                                                          VerticalAlignment="Top"
+                                                          Margin="0,5,5,0"
+                                                          ToolTip="Mark task complete"/>
+                                            </Grid>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
