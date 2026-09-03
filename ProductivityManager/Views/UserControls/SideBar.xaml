@@ -5,15 +5,27 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:ProductivityManager.Views.UserControls"
              mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="125">
-    <Grid Width="125" Background="LightGray">
+             d:DesignHeight="300" d:DesignWidth="160">
+    <Grid Width="160" Background="#EEF0F8">
         <Grid.RowDefinitions>
-            <RowDefinition Height="50"></RowDefinition>
-            <RowDefinition Height="50"></RowDefinition>
-            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition Height="85"></RowDefinition>
+            <RowDefinition Height="52"></RowDefinition>
+            <RowDefinition Height="52"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
-        <Button Name="BtnHome" Grid.Row="0" Width="100" Height="33" Background="White" Content="Home" FontSize="20" Click="BtnHome_OnClick"></Button>
-        <Button Name="BtnTasks" Grid.Row="1" Width="100" Height="33" Background="White" Content="Tasks" FontSize="20" Click="BtnTasks_OnClick"></Button>
-        <Button Name="BtnSettings" Grid.Row="2" Width="100" Height="33" Background="White" Content="Settings" FontSize="20" Click="BtnSettings_OnClick"></Button>
+        <StackPanel Grid.Row="0" VerticalAlignment="Center" Margin="16,0">
+            <TextBlock Text="Productivity" Foreground="{StaticResource TextBrush}" FontSize="16"
+                       FontWeight="SemiBold"></TextBlock>
+            <TextBlock Text="Manager" Foreground="{StaticResource MutedTextBrush}" FontSize="13"
+                       Margin="0,2,0,0"></TextBlock>
+        </StackPanel>
+        <Button Name="BtnHome" Grid.Row="1" Content="Home" Foreground="{StaticResource TextBrush}" 
+                Background="Transparent" BorderBrush="Transparent" BorderThickness="0" FontSize="15" 
+                FontWeight="SemiBold" HorizontalContentAlignment="Left" Padding="18,0" Margin="7,3" 
+                Click="BtnHome_OnClick"></Button>
+        <Button Name="BtnTasks" Grid.Row="2" Content="Tasks" Foreground="{StaticResource TextBrush}" 
+                Background="Transparent" BorderBrush="Transparent" BorderThickness="0" FontSize="15" 
+                FontWeight="SemiBold" HorizontalContentAlignment="Left" Padding="18,0" Margin="7,3" 
+                Click="BtnTasks_OnClick"></Button>
     </Grid>
 </UserControl>

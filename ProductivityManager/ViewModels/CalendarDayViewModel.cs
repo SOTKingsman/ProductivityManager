@@ -14,6 +14,8 @@ public class CalendarDayViewModel
     public string DayNumber => Date.Day.ToString();
 
     public bool IsInCurrentMonth { get; }
+    
+    public bool IsToday => Date.Date == DateTime.Today;
 
     public ObservableCollection<TaskOccurrence> Occurrences { get; } = new();
 
