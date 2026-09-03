@@ -12,11 +12,16 @@
         <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
     </UserControl.Resources>
     
-    <Grid Background="#F5F5F5">
+    <Grid Background="{StaticResource AppBackgroundBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="70"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+
+        <Border Grid.Row="0"
+                Background="{StaticResource SurfaceBrush}"
+                BorderBrush="{StaticResource BorderBrush}"
+                BorderThickness="0,0,0,1"/>
 
         <TextBlock Grid.Row="0"
                    Text="Tasks"
@@ -24,22 +29,50 @@
                    VerticalAlignment="Center"
                    FontSize="24"
                    FontWeight="SemiBold"
-                   Foreground="#202020"/>
+                   Foreground="{StaticResource TextBrush}"/>
+
+        <Button Grid.Row="0"
+                Name="BtnAddTask"
+                Content="+ Add Task"
+                Command="{Binding AddTaskCommand}"
+                Style="{StaticResource PrimaryButtonStyle}"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Margin="20,0,0,0"
+                Padding="16,8"/>
 
         <Border Grid.Row="1"
-                Margin="20,0,20,20"
-                Background="White"
-                BorderBrush="#CCCCCC"
+                Margin="20,15,20,20"
+                Background="{StaticResource SurfaceBrush}"
+                BorderBrush="{StaticResource BorderBrush}"
                 BorderThickness="1"
-                CornerRadius="5">
+                CornerRadius="10">
             <Grid>
                 <ListBox x:Name="TaskList"
                          ItemsSource="{Binding Tasks}"
                          SelectedItem="{Binding SelectedTask, Mode=TwoWay}"
                          Background="Transparent"
                          BorderThickness="0"
+                         Padding="8"
                          HorizontalContentAlignment="Stretch"
                          SelectionMode="Single">
+
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                            <Setter Property="Padding" Value="0"/>
+                            <Setter Property="Margin" Value="0"/>
+                            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="BorderThickness" Value="0"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                    <Setter Property="BorderBrush" Value="Transparent"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
 
                     <ListBox.ItemTemplate>
                         <DataTemplate>
@@ -49,34 +82,43 @@
                                     CommandParameter="{Binding}"
                                     Background="Transparent"
                                     BorderThickness="0"
+                                    Padding="0"
                                     HorizontalContentAlignment="Stretch">
 
-                                <Border Background="WhiteSmoke"
-                                        BorderBrush="#444444"
+                                <Border Background="{StaticResource PrimarySoftBrush}"
+                                        BorderBrush="{StaticResource PrimaryBrush}"
                                         BorderThickness="1"
                                         CornerRadius="8"
-                                        Padding="12"
+                                        Padding="14"
                                         Margin="4">
 
                                     <StackPanel>
                                         <TextBlock Text="{Binding TaskName}"
                                                    FontSize="18"
-                                                   FontWeight="SemiBold"/>
+                                                   FontWeight="SemiBold"
+                                                   Foreground="{StaticResource TextBrush}"/>
 
                                         <TextBlock Text="{Binding Category}"
                                                    FontSize="12"
+                                                   Foreground="{StaticResource PrimaryBrush}"
+                                                   FontWeight="SemiBold"
                                                    Margin="0,2,0,0"/>
 
                                         <TextBlock Text="{Binding Description}"
+                                                   Foreground="{StaticResource MutedTextBrush}"
                                                    Margin="0,8,0,0"
                                                    TextWrapping="Wrap"/>
                                     
-                                        <TextBlock Text="{Binding StartDateTime}"
-                                                   Margin="0,8,0,0"
+                                        <TextBlock Text="{Binding StartDateTime, StringFormat={}{0:MMM d, yyyy  h:mm tt}}"
+                                                   Foreground="{StaticResource MutedTextBrush}"
+                                                   FontSize="12"
+                                                   Margin="0,10,0,0"
                                                    TextWrapping="Wrap"/>
                                     
-                                        <TextBlock Text="{Binding EndDateTime}"
-                                                   Margin="0,8,0,0"
+                                        <TextBlock Text="{Binding EndDateTime, StringFormat={}{0:MMM d, yyyy  h:mm tt}}"
+                                                   Foreground="{StaticResource MutedTextBrush}"
+                                                   FontSize="12"
+                                                   Margin="0,3,0,0"
                                                    TextWrapping="Wrap"/>
                                     </StackPanel>
 
@@ -87,19 +129,6 @@
                     </ListBox.ItemTemplate>
                     
                 </ListBox>
-                
-                <Button Name="BtnAddTask"
-                        Height="35"
-                        Width="70"
-                        FontSize="15"
-                        Content="Add Task"
-                        Background="LightGray"
-                        BorderBrush="Gray"
-                        VerticalAlignment="Bottom"
-                        HorizontalAlignment="Right"
-                        Margin="25"
-                        Command="{Binding AddTaskCommand}">
-                </Button>
                 
                 
             </Grid>
